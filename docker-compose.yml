@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  websocket-bk:
+    image: backsoul/websocket-bk
+    build: .
+    container_name: websocket-bk
+    volumes:
+      - .:/app
+    ports:
+      - '3000:3000'
