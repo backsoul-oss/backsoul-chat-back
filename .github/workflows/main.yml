@@ -1,18 +1,35 @@
-name: Deploy
+# Your workflow name.
+name: Deploy to heroku.
 
+# Run workflow on every push to master branch.
 on:
   push:
     branches:
-      - main
+      - master
 
+# Your workflows jobs.
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - uses: akhileshns/heroku-deploy@v3.12.12
+      - uses: akhileshns/heroku-deploy@v3.12.12 # This is the action
         with:
           heroku_api_key: ${{secrets.HEROKU_API_KEY}}
-          heroku_app_name: 'websocket-bk'
-          heroku_email: 'danielsarmientoenterprise@gmail.com'
-          usedocker: true
+          heroku_app_name: ${{secrets.HEROKU_NAME_APP}} #Must be unique in Heroku
+          heroku_email: ${{secrets.HEROKU_EMAIL}}
+
+      - name: 'Login to heroku registry'
+        run: heroku container:login
+
+      - name: 'Set branch main'
+        run: heroku stack:set heroku-20
+
+      - name: 'Build and push to heroku registry'
+        run: heroku container:push web --app backsoul-bk
+
+      - name: 'Releases the container'
+        run: heroku container:release web --app backsoul-bk
+
+### ⬆ IMPORTANT PART ⬆ ###
+
