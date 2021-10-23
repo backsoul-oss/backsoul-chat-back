@@ -9,7 +9,7 @@ export class AppController {
   getHello(): any {
     return {
       by: 'Backsoul',
-      message: 'Hello World developer:S',
+      message: 'Hello World developer:D',
     };
   }
 }
